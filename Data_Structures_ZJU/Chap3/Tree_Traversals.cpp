@@ -1,9 +1,84 @@
 #include<iostream>
+#include<sstream>
 #include<string>
 #include<stack>
+#include<vector>
+#include<algorithm>
+#include<iterator>
 
 using namespace std;
 
+
+// 以下为直接根据前序和中序得到后序
+
+int GetNum( const string &s );
+void GivePostOrder( int pre_left, int in_left, int post_left, int n);
+
+vector<int> pre_order;
+vector<int> in_order;
+vector<int> post_order;
+stack<int> sta;             //辅助
+int N;
+
+
+int main() {
+    cin>>N;
+    cin.get();
+    post_order.assign(N,0);
+    string s;
+    for (int i = 0; i < 2*N; i++)
+    {
+        getline(cin,s);
+        if (s[1] == 'o') {  //pop
+            int temp = sta.top();
+            sta.pop();
+            in_order.push_back(temp);
+        } else {            //push
+            int temp = GetNum(s);
+            pre_order.push_back(temp);
+            sta.push(temp);
+        }
+    }
+     GivePostOrder(0,0,0,N);
+     cout<<post_order[0];
+     for (int i = 1; i <= N-1; i++)
+     {
+         cout<<" "<<post_order[i];
+     }
+     cout<<endl;
+    return 0;
+}
+
+int GetNum (const string &s) {
+    istringstream is(s.substr(5));
+    int num;
+    is>>num;
+    return num;
+}
+
+void GivePostOrder( int pre_left, int in_left, int post_left, int n) {
+    if (n == 0) return ;
+    if (n == 1) {
+        post_order[post_left] = pre_order[pre_left];
+        return ;
+    }
+    int root = pre_order[pre_left];
+    post_order[post_left + n -1] = root;
+
+    int i;
+    for (i = 0; i < n; i++) {
+        if (in_order[in_left + i] == root) break;
+    }
+
+    int left_length = i;
+    int right_length = n - left_length - 1;
+    GivePostOrder( pre_left + 1, in_left, post_left, left_length);
+    GivePostOrder( pre_left + left_length + 1, in_left + left_length + 1, post_left + left_length , right_length);
+}
+
+
+
+/* 以下为构建新树的做法
 typedef struct Tree_Node* Tree;
 struct Tree_Node {
     int data;
@@ -72,3 +147,4 @@ int main() {
     cout<<Root->data<<endl;
     return 0;
 }
+*/
