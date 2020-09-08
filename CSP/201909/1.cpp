@@ -6,7 +6,7 @@ using namespace std;
 int main() {
     int N,M;
     int sum = 0;
-    int largest_id=0,largest_num=0;
+    int largest_id=0, largest_num=0;
 
     scanf("%d%d",&N,&M);
 
