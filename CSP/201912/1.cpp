@@ -1,47 +1,36 @@
-// 注意取模运算后，每一个都要自己模拟走一遍
-
-#include<iostream>
+#include<cstdio>
 
 using namespace std;
 
-int ans[5];
-
-bool contain7(int num) {
-    while (num)
-    {
-        if ((num % 10) == 7){
-            return true;
-        }
-        num /= 10;
+bool contain7(int i) {
+    int j;
+    while (i) {
+        j = i % 10;
+        if (j == 7) return true;
+        else i = i/10;
     }
     return false;
 }
 
 int main() {
-    int n;
-    int calledNum = 0;
-    int callingNum = 1;
-    cin>>n;
+    int n,i=1;
+    int count = 0;
+    int skip[5] = {0};
+    scanf("%d",&n);
+    while (count != n) {
+        if (i % 7 == 0 || contain7(i)) {
+            skip[i%4]++;
+            i++;
+            continue;
+        } else {
+            count++;
+            i++;
+        }
+    }
+    skip[4] = skip[0];
     for (int i = 1; i < 5; i++)
     {
-        ans[i]=0;
+        printf("%d\n",skip[i]);
     }
-    while (calledNum < n)
-    {
-        if ((callingNum % 7 == 0 ) || contain7(callingNum)) {
-            ans[(callingNum++)%4]++;
-        }
-        else
-        {
-            ++callingNum;
-            ++calledNum;
-        }
-    }
-    
-    for (int i = 1; i < 4; i++)
-    {
-        cout<<ans[i]<<endl;
-    }
-    cout<<ans[0]<<endl;
     return 0;
 }
