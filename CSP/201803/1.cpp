@@ -1,4 +1,4 @@
-#include<iostream>
+#include<cstdio>
 
 using namespace std;
 
@@ -6,12 +6,8 @@ int main() {
     int n;
     int sum = 0;
     int last_score = 0;
-    while (cin>>n)
+    while (scanf("%d",&n),n!=0)
     {
-        if (n == 0 ) {
-            break;
-        }
-
         if (n == 1) {
             sum += 1;
             last_score = 1;
@@ -27,6 +23,6 @@ int main() {
             }
         }
     }
-    cout<<sum<<endl;
+    printf("%d\n",sum);
     return 0;
 }

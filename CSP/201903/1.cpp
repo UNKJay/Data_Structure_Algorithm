@@ -1,36 +1,31 @@
-#include<iostream>
-#include<vector>
-#include<cmath>
-#include<iomanip>
-
-//易错点;
-// 读题读题，输出的奇怪要求
+#include<cstdio>
 
 using namespace std;
 
+const int MAX = 0x3fffffff;
+const int MIN = -MAX;
+
 int main() {
-    int n;
-    cin>>n;
-    vector<int> array(n);
-    for (int i = 0; i < n; ++i)
+    bool flag = false;
+    int n,min = MAX, max = MIN;
+    double mid;
+    scanf("%d",&n);
+    int num[n];
+    for (int i = 0; i < n; i++)
     {
-        cin>>array[i];
+        scanf("%d",&num[i]);
+        min = (num[i] < min)?num[i]:min;
+        max = (num[i] > max)?num[i]:max;
     }
-
-    int min,max;
-    double middle;
-    min = array[0]>array[n-1]? array[n-1]:array[0];
-    max = array[0]>array[n-1]? array[0]:array[n-1];
-
-    if ( n % 2) {
-        int middle = array[(n-1)/2];
-        cout<<max<<" "<<middle<<" "<<min<<endl;
-    } else if ( (array[n/2]+array[n/2-1]) %2 ){
-        double middle = (array[n/2]+array[n/2-1])/2.0;
-        cout<<max<<" "<<fixed<<setprecision(1)<<middle<<" "<<min<<endl;
-    } else {
-        int middle = (array[n/2]+array[n/2-1]) /2;
-        cout<<max<<" "<<middle<<" "<<min<<endl;
+    if (n&1) {      //奇数
+        mid = num[n/2];
+    } else {        //偶数
+        if ((num[n/2] + num[n/2 -1]) & 1) flag = true;
+        mid = (num[n/2] + num[n/2 -1])/2.0;
     }
+    if (flag)
+        printf("%d %.1f %d\n",max,mid,min);
+    else
+        printf("%d %d %d\n",max,(int)mid,min);
     return 0;
 }
