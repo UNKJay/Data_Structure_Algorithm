@@ -1,21 +1,21 @@
-// 二维数组 vector 的写法好好学习
-
-#include<iostream>
-#include<vector>
-#include<algorithm>
+#include<cstdio>
+#include<cmath>
 
 using namespace std;
 
+struct coordinate {
+    int x,y;
+};
 
 int main() {
     int n;
-    cin>>n;
-    vector<vector<int>> bin(n,vector<int>(2));
-    vector<int> result(5,0);
+    scanf("%d",&n);
+    coordinate bin[1005];
+    int result[5] = {0};
 
     for (int i = 0; i < n; i++)
     {
-        cin>>bin[i][0]>>bin[i][1];
+        scanf("%d%d",&bin[i].x,&bin[i].y);
     }
 
     for (int i = 0; i < n; i++)
@@ -24,8 +24,8 @@ int main() {
         int orthgonal = 0;
         for (int j = 0; j < n; j++)
         {
-            int x = abs(bin[i][0]-bin[j][0]);
-            int y = abs(bin[i][1]-bin[j][1]);
+            int x = abs(bin[i].x-bin[j].x);
+            int y = abs(bin[i].y-bin[j].y);
             if ( x + y == 1) {
                 ++orthgonal;
             }
@@ -38,6 +38,6 @@ int main() {
         }
     }
     for(int v:result) {
-        cout<<v<<endl;
-    }   
+        printf("%d\n",v);
+    }
 }

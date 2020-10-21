@@ -1,8 +1,5 @@
-#include<iostream>
+#include<cstdio>
 
-
-// 易错点
-// 数据类型！！！ long long 
 using namespace std;
 
 int wait_time(long long used , int option , int initial_time);
@@ -11,13 +8,13 @@ int r,y,g;
 
 int main() {
     int n;
-    cin>>r>>y>>g>>n;
+    scanf("%d%d%d%d",&r,&y,&g,&n);
 
     long long result = 0;
     int option,time;
     while (n--)
     {
-        cin>>option>>time;
+        scanf("%d%d",&option,&time);
         switch (option)
         {
         case 0:
@@ -29,7 +26,7 @@ int main() {
             break;
         }
     }
-    cout<<result<<endl;
+    printf("%lld\n",result);
     return 0;
 }
 

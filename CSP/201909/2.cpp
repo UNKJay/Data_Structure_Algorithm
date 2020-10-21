@@ -1,5 +1,4 @@
-#include<iostream>
-#include<vector>
+#include<cstdio>
 #include<cmath>
 
 using namespace std;
@@ -8,15 +7,16 @@ int main() {
     int N,M;
     int sum = 0;
     int init_num,d=0,e=0;
-    cin>>N;
-    vector<bool> flag(N,false);
+    scanf("%d",&N);
+    bool flag[1005] = {false};
+
     for (int i = 0; i < N; i++)
     {
-        cin>>M>>init_num;
+        scanf("%d%d",&M,&init_num);
         int drop_num;
         for (int j = 0; j < M-1; ++j)
         {
-            cin>>drop_num;
+            scanf("%d",&drop_num);
             if (drop_num <= 0) {
                 init_num += drop_num;
             } else if (init_num > drop_num) {
@@ -36,8 +36,6 @@ int main() {
             e++;
         }
     }
-    
-
-    cout<<sum<<" "<<d<<" "<<e<<endl;
+    printf("%d %d %d\n",sum,d,e);
     return 0;
 }

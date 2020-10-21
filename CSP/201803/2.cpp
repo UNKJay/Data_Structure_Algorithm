@@ -1,18 +1,18 @@
-#include<iostream>
-#include<vector>
-
+#include<cstdio>
+#include<algorithm>
 using namespace std;
 
 int main() {
     int n,l,t;
-    cin>>n>>l>>t;
-    vector<int>location(n);
-    vector<int>velocity(n,1);
-    vector<int>axis(l+1,0);
+    scanf("%d%d%d",&n,&l,&t);
+    int location[105];
+    int velocity[105];
+    int axis[1005] = {0};
+    fill(velocity,velocity+n,1);
 
     for (int i = 0; i < n; i++)
     {
-        cin>>location[i];
+        scanf("%d",&location[i]);
         axis[location[i]]++;
     }
     
@@ -38,8 +38,8 @@ int main() {
     
     for (int i = 0; i < n; i++)
     {
-        cout<<location[i]<<" ";
+        printf("%d ",location[i]);
     }
-    cout<<endl;    
+    printf("\n");
     return 0;
 }

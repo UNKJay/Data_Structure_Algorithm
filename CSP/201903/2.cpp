@@ -1,80 +1,125 @@
-// 易错点
-// 读题， x 代表 *
-
+/* 以下为使用双栈模拟中缀表达式的求值过程
 #include<iostream>
-#include<cstring>
+#include<map>
+#include<stack>
 
 using namespace std;
 
-int expression_value();
-int term_value();
-int factor_value();
+int cal(string str);
+
+map<char,int> op;
+stack<int> opNum;
+stack<char> opChar;
 
 int main() {
+    op['#'] = 0;
+    op['+'] = op['-'] = 1;
+    op['x'] = op['/'] = 2;
     int n;
+    string s;
     cin>>n;
     while (n--) {
-        cin.get();
-        cout<< ((expression_value() == 24) ? "Yes" : "No") << endl;
+        cin>>s;
+        cout<<(cal(s) == 24?"Yes":"No")<<endl;
     }
     return 0;
 }
 
-int expression_value() {
-    int result = term_value();
-    while (true) {
-        char c = cin.peek();
-        if (c == '+' || c == '-') {
-            cin.get();
-            int value = term_value();
-            if (c == '+') {
-                result += value;
-            } else {
-                result -= value;
-            }
-        } else {
-            break;
-        }
-    }
-    return result;
-}
-
-int term_value() {
-    int result = factor_value();
-    while (true)
+int cal(string str) {
+    int num1,num2;
+    char c;
+    str += '#';
+    for (int i = 0; i < str.size(); i++)
     {
-        char c = cin.peek();
-        if (c == 'x' || c == '/') {
-            cin.get();
-            int value = factor_value();
-            if (c == 'x') {
-                result *= value;
-            } else
-            {
-                result /= value;
+        if (str[i] >= '0' && str[i] <= '9') {
+            opNum.push(str[i]-'0');
+        } else {
+            while (!opChar.empty() && op[str[i]] <= op[opChar.top()]) {
+                c = opChar.top();
+                opChar.pop();
+                num1 = opNum.top();
+                opNum.pop();
+                num2 = opNum.top();
+                opNum.pop();
+                if (c == '+') opNum.push(num2+num1);
+                else if (c == '-') opNum.push(num2-num1);
+                else if (c == 'x') opNum.push(num2*num1);
+                else if (c == '/') opNum.push(num2/num1);
             }
-        } else
-        {
-            break;
+            opChar.push(str[i]);
         }
     }
-    return result;
+    num1 = opNum.top();
+    opNum.pop();
+    opChar.pop();
+    return num1;
 }
 
-int factor_value() {
-    char c = cin.peek();
-    int result = 0;
-    if (c == '(') {
-        cin.get();
-        result = expression_value();
-        cin.get();
-    } else {
-        while (isdigit(c))
-        {
-            cin.get();
-            result = result * 10 + c - '0';
-            c = cin.peek();
+*/
+
+// 以下为转换为后缀表达式后进行求值
+
+#include<iostream>
+#include<map>
+#include<stack>
+
+using namespace std;
+
+int cal(string str);
+
+map<char,int> op;
+stack<int> opNum;
+stack<char> opChar;
+
+int main() {
+    op['+'] = op['-'] = 1;
+    op['x'] = op['/'] = 2;
+    int n;
+    string s;
+    cin>>n;
+    while (n--) {
+        cin>>s;
+        cout<<(cal(s) == 24?"Yes":"No")<<endl;
+    }
+    return 0;
+}
+
+int cal(string str) {
+    string post = "";// 转换为后缀表达式
+    for (int i = 0; i < str.size(); i++)
+    {
+        if (str[i] >= '0' && str[i] <= '9') {
+            post += str[i];
+        } else {
+            while (!opChar.empty() && op[str[i]] <= op[opChar.top()]) {
+                post += opChar.top();
+                opChar.pop();
+            }
+            opChar.push(str[i]);
         }
     }
-    return result;
+    while (!opChar.empty()) {
+        post += opChar.top();
+        opChar.pop();
+    }
+    int num1,num2;
+    char c;
+    for (int i = 0; i < post.size(); i++)
+    {
+        if (post[i] >= '0' && post[i] <= '9') {
+            opNum.push(post[i] - '0');
+        } else {
+            num1 = opNum.top();
+            opNum.pop();
+            num2 = opNum.top();
+            opNum.pop();
+            if (post[i] == '+') opNum.push(num2+num1);
+            else if (post[i] == '-') opNum.push(num2-num1);
+            else if (post[i] == 'x') opNum.push(num2*num1);
+            else if (post[i] == '/') opNum.push(num2/num1);
+        }
+    }
+    num1 = opNum.top();
+    opNum.pop();
+    return num1;
 }
